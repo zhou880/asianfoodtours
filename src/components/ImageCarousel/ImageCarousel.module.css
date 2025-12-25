@@ -1,0 +1,97 @@
+.placeholder {
+  aspect-ratio: 16 / 9;
+  background-color: var(--gray-200);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.placeholderIcon {
+  font-size: 6rem;
+}
+
+.carousel {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background-color: var(--gray-900);
+}
+
+.image {
+  object-fit: cover;
+}
+
+.navButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: var(--white);
+  border-radius: 9999px;
+  padding: 0.5rem;
+  opacity: 0;
+  transition: opacity 0.2s, background-color 0.2s;
+  border: none;
+  cursor: pointer;
+}
+
+.navButton:hover {
+  background-color: rgba(0, 0, 0, 0.75);
+}
+
+.carousel:hover .navButton {
+  opacity: 1;
+}
+
+.navButtonPrev {
+  left: 1rem;
+}
+
+.navButtonNext {
+  right: 1rem;
+}
+
+.navIcon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.counter {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: var(--white);
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.dotsContainer {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.5rem;
+}
+
+.dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+  background-color: rgba(255, 255, 255, 0.5);
+  transition: all 0.2s;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.dot:hover {
+  background-color: rgba(255, 255, 255, 0.75);
+}
+
+.dotActive {
+  width: 1.5rem;
+  background-color: var(--white);
+}

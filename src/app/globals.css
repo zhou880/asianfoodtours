@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #faf8f5;
+  --foreground: #333333;
+
+  /* Cream Colors */
+  --cream-50: #fdfcfb;
+  --cream-100: #faf8f5;
+  --cream-200: #f5f1ea;
+  --cream-300: #ebe4d7;
+  --cream-400: #ddd2c0;
+
+  /* Accent Colors */
+  --accent-red: #c8412b;
+  --accent-gold: #d4af37;
+
+  /* Tailwind Grays */
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-400: #9ca3af;
+  --gray-500: #6b7280;
+  --gray-600: #4b5563;
+  --gray-700: #374151;
+  --gray-800: #1f2937;
+  --gray-900: #111827;
+
+  /* Additional Colors */
+  --blue-500: #3b82f6;
+  --blue-600: #2563eb;
+  --red-100: #fee2e2;
+  --red-800: #991b1b;
+  --white: #ffffff;
+  --black: #000000;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Inter, system-ui, sans-serif;
+}
+
+/* Leaflet popup custom styling */
+.leaflet-popup-content-wrapper {
+  border-radius: 8px;
+}
+
+.leaflet-popup-content {
+  margin: 12px;
+}
