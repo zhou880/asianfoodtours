@@ -5,7 +5,7 @@
 }
 
 .container {
-  max-width: 80rem;
+  max-width: none;
   padding: 1rem;
 }
 
@@ -13,6 +13,11 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  justify-content: space-between;
+}
+
+.titleSection {
+  flex: 1;
 }
 
 .icon {
@@ -47,6 +52,30 @@
   display: inline;
   margin-right: 6px;
   vertical-align: middle;
+}
+
+.adminLink {
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: #c8412b;
+  color: white;
+  text-decoration: none;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  font-weight: 300;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  line-height: 0;
+  padding: 0;
+  padding-bottom: 2px;
+  margin-right: 1rem;
+}
+
+.adminLink:hover {
+  background-color: #a33624;
 }
 
 @media (min-width: 640px) {

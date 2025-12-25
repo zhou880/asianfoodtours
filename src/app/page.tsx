@@ -1,15 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import Header from '@/components/Header/Header';
 import Sidebar from '@/components/Sidebar/Sidebar';
 import RestaurantGrid from '@/components/RestaurantCard/RestaurantGrid';
 import RestaurantDetail from '@/components/RestaurantCard/RestaurantDetail';
 import { useFilteredRestaurants } from '@/hooks/useFilteredRestaurants';
-import { useGeocodedRestaurants } from '@/hooks/useGeocodedRestaurants';
 import { Restaurant, Cuisine, Location } from '@/types/restaurant';
-import { restaurantData } from '@/data/restaurants';
 import styles from './page.module.css';
 
 const CUISINE_OPTIONS = Object.values(Cuisine);
@@ -43,15 +41,46 @@ export default function Home() {
   // State for mobile filter visibility
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
 
-  // Get restaurants from TypeScript data
-  const restaurants = restaurantData.restaurants;
+  // State for restaurants from API
+  const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Geocode restaurants that don't have coordinates
-  const { geocodedRestaurants, isGeocoding } = useGeocodedRestaurants(restaurants);
+  // Fetch restaurants from API
+  useEffect(() => {
+    const fetchRestaurants = async () => {
+      try {
+        const response = await fetch('/api/restaurants');
+        const data = await response.json();
+
+        // Transform DB format to frontend format
+        const transformed = data.map((r: any) => ({
+          id: r.id,
+          name: r.name,
+          cuisineTypes: r.cuisine_types as Cuisine[],
+          location: r.location as Location,
+          address: r.address,
+          photos: r.photos,
+          review: r.review,
+          coordinates: r.latitude && r.longitude ? {
+            lat: r.latitude,
+            lng: r.longitude
+          } : undefined
+        }));
+
+        setRestaurants(transformed);
+      } catch (error) {
+        console.error('Error fetching restaurants:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchRestaurants();
+  }, []);
 
   // Filter restaurants based on selected cuisines and locations
   const filteredRestaurants = useFilteredRestaurants(
-    geocodedRestaurants,
+    restaurants,
     selectedCuisines,
     selectedLocations
   );
@@ -111,9 +140,9 @@ export default function Home() {
         <div className={styles.mapGridContainer}>
           {/* Map Section */}
           <div className={styles.mapSection}>
-            {isGeocoding && (
+            {isLoading && (
               <div className={styles.geocodingBanner}>
-                Geocoding addresses...
+                Loading restaurants...
               </div>
             )}
             <RestaurantMap

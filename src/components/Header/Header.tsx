@@ -9,7 +9,7 @@ export default function Header() {
           <div className={styles.icon}>
             <Image src="/logo.png" alt="Asian Food Tours Logo" width={48} height={48} />
           </div>
-          <div>
+          <div className={styles.titleSection}>
             <h1 className={styles.title}>
               Your Neighborhood Asian Food Guide
             </h1>
@@ -19,6 +19,9 @@ export default function Header() {
               </a>
             </p>
           </div>
+          <a href="/admin" className={styles.adminLink} title="Admin">
+            +
+          </a>
         </div>
       </div>
     </header>
