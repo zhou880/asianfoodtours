@@ -4,6 +4,7 @@ export enum Location {
   BAY_AREA = "Bay Area",
   NEW_YORK = "New York",
   CHICAGO = "Chicago",
+  NEW_JERSEY = "New Jersey"
 }
 
 export enum Cuisine {
@@ -36,4 +37,32 @@ export interface Restaurant {
 
 export interface RestaurantData {
   restaurants: Restaurant[];
+}
+
+// Database representation (snake_case for PostgreSQL)
+export interface RestaurantDB {
+  id: string;
+  name: string;
+  cuisine_types: string[];
+  location: string;
+  address: string;
+  photos: string[];
+  review: string;
+  latitude: number | null;
+  longitude: number | null;
+  created_at: string;
+  updated_at: string;
+}
+
+// Form data for admin create/edit
+export interface RestaurantFormData {
+  id: string;
+  name: string;
+  cuisineTypes: string[];
+  location: string;
+  address: string;
+  photos: string[];
+  review: string;
+  latitude?: number;
+  longitude?: number;
 }
