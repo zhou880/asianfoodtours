@@ -1,5 +1,7 @@
-# Asian Food Tours
+# Asian Food Tours 
+#### IG: [@asianfoodtours](https://www.instagram.com/asianfoodtours/)
 
-An interactive map-based website showcasing the best Asian restaurants. Built with Next.js, TypeScript, and Leaflet.
+An interactive map-based website showcasing my favorite Asian restaurants. Built with Next.js, Leaflet, Supabase. Deployed with Vercel.
 
-IG: [@asianfoodtours](https://www.instagram.com/asianfoodtours/)
+
+[Website](https://asianfoodtours.vercel.app/)

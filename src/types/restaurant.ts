@@ -4,7 +4,9 @@ export enum Location {
   BAY_AREA = "Bay Area",
   NEW_YORK = "New York",
   CHICAGO = "Chicago",
-  NEW_JERSEY = "New Jersey"
+  NEW_JERSEY = "New Jersey",
+  LOS_ANGELES = "Los Angeles",
+  LONDON = "London"
 }
 
 export enum Cuisine {
@@ -17,6 +19,7 @@ export enum Cuisine {
   INDIAN = "Indian",
   TAIWANESE = "Taiwanese",
   THAI = "Thai",
+  FILIPINO = "Filipino"
 }
 
 export interface Coordinates {
