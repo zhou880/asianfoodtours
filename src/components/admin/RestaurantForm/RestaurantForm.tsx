@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { Cuisine, Location } from '@/types/restaurant'
 import AddressGeocoder from './AddressGeocoder'
 import ImageUploader from './ImageUploader'
+import PlacesAutocomplete from './PlacesAutocomplete'
 import styles from './RestaurantForm.module.css'
 
 interface RestaurantFormProps {
@@ -106,24 +107,28 @@ export default function RestaurantForm({ restaurantId, initialData, isEdit = fal
     setError(null)
 
     // Validation
-    if (!name || !location || !streetAddress || !city || !state || !zipCode || !country || !review || selectedCuisines.length === 0) {
-      setError('Please fill in all required fields')
+    if (!name || !location || !streetAddress || !city || !country || !review || selectedCuisines.length === 0) {
+      setError('Please fill in all required fields (name, location, street address, city, country, cuisines, and review)')
       setIsSubmitting(false)
       return
     }
 
-    // Validate ZIP code format
-    if (!/^\d{5}$/.test(zipCode)) {
-      setError('ZIP code must be exactly 5 digits')
-      setIsSubmitting(false)
-      return
+    // Validate ZIP code format only for US addresses
+    if (country.toUpperCase() === 'USA' || country.toUpperCase() === 'UNITED STATES') {
+      if (zipCode && !/^\d{5}(-\d{4})?$/.test(zipCode)) {
+        setError('US ZIP code must be 5 digits (e.g., 94109) or 9 digits (e.g., 94109-1234)')
+        setIsSubmitting(false)
+        return
+      }
     }
 
-    // Validate state code format
-    if (!/^[A-Z]{2}$/.test(state)) {
-      setError('State must be a valid 2-letter code (e.g., CA, NY, IL)')
-      setIsSubmitting(false)
-      return
+    // Validate state code format only for US addresses
+    if (country.toUpperCase() === 'USA' || country.toUpperCase() === 'UNITED STATES') {
+      if (state && !/^[A-Z]{2}$/.test(state)) {
+        setError('US state must be a valid 2-letter code (e.g., CA, NY, IL)')
+        setIsSubmitting(false)
+        return
+      }
     }
 
     try {
@@ -175,18 +180,27 @@ export default function RestaurantForm({ restaurantId, initialData, isEdit = fal
         <label htmlFor="name" className={styles.label}>
           Restaurant Name <span className={styles.required}>*</span>
         </label>
-        <input
-          type="text"
-          id="name"
+        <PlacesAutocomplete
           value={name}
-          onChange={(e) => setName(e.target.value)}
-          className={styles.input}
-          placeholder="e.g., Golden Pho House"
-          required
+          onChange={setName}
+          onPlaceSelect={(place) => {
+            setName(place.name)
+            setStreetAddress(place.streetAddress)
+            setCity(place.city)
+            setState(place.state)
+            setZipCode(place.zipCode)
+            setCountry(place.country)
+            setLatitude(place.latitude)
+            setLongitude(place.longitude)
+          }}
+          placeholder="Search for a restaurant (e.g., Golden Pho House)"
         />
         {name && (
           <div className={styles.hint}>ID will be: {id}</div>
         )}
+        <div className={styles.hint} style={{ marginTop: '0.5rem' }}>
+          Start typing to search for a restaurant and auto-fill the address
+        </div>
       </div>
 
       <div className={styles.field}>
@@ -261,33 +275,29 @@ export default function RestaurantForm({ restaurantId, initialData, isEdit = fal
 
         <div className={styles.field} style={{ flex: 1 }}>
           <label htmlFor="state" className={styles.label}>
-            State <span className={styles.required}>*</span>
+            State/Province
           </label>
           <input
             type="text"
             id="state"
             value={state}
-            onChange={(e) => setState(e.target.value.toUpperCase())}
+            onChange={(e) => setState(e.target.value)}
             className={styles.input}
-            placeholder="CA"
-            maxLength={2}
-            required
+            placeholder="e.g., CA or London"
           />
         </div>
 
         <div className={styles.field} style={{ flex: 1 }}>
           <label htmlFor="zipCode" className={styles.label}>
-            ZIP Code <span className={styles.required}>*</span>
+            Postal Code
           </label>
           <input
             type="text"
             id="zipCode"
             value={zipCode}
-            onChange={(e) => setZipCode(e.target.value.replace(/\D/g, '').slice(0, 5))}
+            onChange={(e) => setZipCode(e.target.value)}
             className={styles.input}
-            placeholder="94109"
-            maxLength={5}
-            required
+            placeholder="e.g., 94109 or SW1A 1AA"
           />
         </div>
       </div>
